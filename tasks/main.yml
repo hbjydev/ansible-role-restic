@@ -66,8 +66,8 @@
     group: root
     mode: "0644"
   notify:
-    - reload systemd
-    - restart restic timer
+    - Reload systemd
+    - Restart restic timer
 
 - name: Set up restic systemd timer
   ansible.builtin.template:
@@ -77,11 +77,10 @@
     group: root
     mode: "0644"
   notify:
-    - reload systemd
-    - restart restic timer
+    - Reload systemd
+    - Restart restic timer
 
 - name: Ensure timer is enabled
   ansible.builtin.systemd:
     enabled: true
-    daemon_reload: true
     name: restic.timer

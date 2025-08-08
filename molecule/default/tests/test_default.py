@@ -148,9 +148,12 @@ def test_restic_version_command(host: Host) -> None:
     assert "restic 0.18.0" in cmd.stdout
 
 
-def test_restic_repository_init(host: Host) -> None:
-    """Test that restic repository can be initialized."""
-    # Source the environment file and run restic init
-    cmd_base = "env $(cat /etc/restic/env | grep -E -v '^#|^$') /usr/local/bin/restic"
-    cmd = host.run(f"{cmd_base} snapshots || {cmd_base} init")
+def test_restic_repository_backup(host: Host) -> None:
+    """
+    Test that restic repository can be initialized, backed up, and pruned via
+    the script provided in the role.
+    """
+
+    # Source the environment file and run the restic backup script
+    cmd = host.run("env $(cat /etc/restic/env | grep -E -v '^#|^$') /usr/local/bin/restic-backup")
     assert cmd.rc == 0

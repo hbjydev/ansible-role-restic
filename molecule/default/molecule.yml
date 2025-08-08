@@ -1,0 +1,60 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: ubuntu-22.04
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    command: "/lib/systemd/systemd"
+    cgroupns_mode: host
+  - name: ubuntu-20.04
+    image: geerlingguy/docker-ubuntu2004-ansible:latest
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    command: "/lib/systemd/systemd"
+    cgroupns_mode: host
+  - name: rockylinux-9
+    image: eniocarboni/docker-rockylinux-systemd:9
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    command: "/usr/sbin/init"
+    cgroupns_mode: host
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      ubuntu-22.04:
+        restic_repository: "/tmp/restic-repo-ubuntu22"
+        restic_repository_password: "test-password"
+        restic_files:
+          - "/etc/hostname"
+          - "/etc/os-release"
+        restic_schedule: "*-*-* *:*:00"  # Every minute for testing
+        restic_keep_last: 3
+      ubuntu-20.04:
+        restic_repository: "/tmp/restic-repo-ubuntu20"
+        restic_repository_password: "test-password"
+        restic_files:
+          - "/etc/hostname"
+          - "/etc/os-release"
+        restic_schedule: "*-*-* *:*:00"
+        restic_keep_last: 5
+      rockylinux-9:
+        restic_repository: "/tmp/restic-repo-rocky9"
+        restic_repository_password: "test-password"
+        restic_files:
+          - "/etc/hostname"
+          - "/etc/os-release"
+        restic_schedule: "*-*-* *:*:00"
+        restic_keep_last: 7
+verifier:
+  name: testinfra

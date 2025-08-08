@@ -3,12 +3,6 @@
   hosts: ubuntu-20.04,ubuntu-22.04
   become: true
   tasks:
-    - name: Create /etc/restic directory
-      file:
-        path: /etc/restic
-        state: directory
-        mode: '0755'
-
     - name: Update package cache (Ubuntu/Debian)
       apt:
         update_cache: true
@@ -17,12 +11,6 @@
 - name: Prepare Rocky Linux 9 containers
   hosts: rockylinux-9
   tasks:
-    - name: Create /etc/restic directory
-      file:
-        path: /etc/restic
-        state: directory
-        mode: '0755'
-
     - name: Install sudo on Rocky Linux containers
       dnf:
         name: sudo

@@ -34,6 +34,14 @@
     group: root
     state: link
 
+- name: Ensure Restic configuration directory
+  ansible.builtin.file:
+    path: "/etc/restic"
+    owner: root
+    group: root
+    mode: "0755"
+    state: directory
+
 - name: Set up restic files list
   ansible.builtin.copy:
     content: "{% for file in restic_files %}{{ file }}\n{% endfor %}"

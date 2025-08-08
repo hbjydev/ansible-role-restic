@@ -51,9 +51,11 @@ jobs:
           fi
           
           # Set changelog content as output
-          echo 'changelog<<EOF' >> $GITHUB_OUTPUT
-          cat CHANGELOG.md >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          {
+            echo 'changelog<<CHANGELOG_EOF'
+            cat CHANGELOG.md
+            echo 'CHANGELOG_EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
         uses: actions/create-release@v1

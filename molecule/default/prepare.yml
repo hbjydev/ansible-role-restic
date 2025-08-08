@@ -8,13 +8,13 @@
         path: /etc/restic
         state: directory
         mode: '0755'
-    
+
     - name: Update package cache (Ubuntu/Debian)
       apt:
         update_cache: true
       when: ansible_os_family == "Debian"
 
-- name: Prepare Rocky Linux 9 containers  
+- name: Prepare Rocky Linux 9 containers
   hosts: rockylinux-9
   tasks:
     - name: Create /etc/restic directory
@@ -22,12 +22,12 @@
         path: /etc/restic
         state: directory
         mode: '0755'
-    
+
     - name: Install sudo on Rocky Linux containers
       dnf:
         name: sudo
         state: present
-    
+
     - name: Update package cache (RedHat/Rocky)
       dnf:
         update_cache: true

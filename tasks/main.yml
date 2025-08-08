@@ -5,7 +5,7 @@
     state: present
 
 - name: Download Restic
-  ansible.builtin.get_url: 
+  ansible.builtin.get_url:
     url: '{{ restic_download_url }}'
     dest: '/tmp/restic-{{ restic_version }}.bz2'
   register: download_restic

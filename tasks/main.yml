@@ -6,20 +6,23 @@
 
 - name: Download Restic
   ansible.builtin.get_url:
-    url: '{{ restic_download_url }}'
-    dest: '/tmp/restic-{{ restic_version }}.bz2'
+    url: "{{ restic_download_url }}"
+    dest: "/tmp/restic-{{ restic_version }}.bz2"
+    owner: root
+    group: root
+    mode: "0644"
   register: download_restic
 
 - name: Extract Restic
-  ansible.builtin.shell:
-    cmd: 'bzip2 -kdc /tmp/restic-{{ restic_version }}.bz2 > {{ restic_install_path }}'
-    creates: '{{ restic_install_path }}'
+  ansible.builtin.shell: # noqa: no-handler
+    cmd: "bzip2 -kdc /tmp/restic-{{ restic_version }}.bz2 > {{ restic_install_path }}"
+    creates: "{{ restic_install_path }}"
   when: download_restic.changed
 
 - name: Ensure Restic is executable and owned by root
   ansible.builtin.file:
     path: "{{ restic_install_path }}"
-    mode: '0755'
+    mode: "0755"
     owner: root
     group: root
 

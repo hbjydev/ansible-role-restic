@@ -5,9 +5,9 @@ exclude_paths:
   - molecule/
 
 skip_list:
-  - yaml[line-length]  # Allow longer lines for readability
+  - yaml[line-length] # Allow longer lines for readability
 
 warn_list:
-  - experimental  # Experimental rules produce warnings instead of errors
+  - experimental # Experimental rules produce warnings instead of errors
 
 use_default_rules: true
